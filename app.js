@@ -18,8 +18,8 @@ mongoose.connect("mongodb://rohitsuri:password@ds149353.mlab.com:49353/todolist"
 //USER AUTHENTICATION USING PASSPORT-FACEBOOK
 
 passport.use(new Strategy({
-    clientID: '190503814821838' ,
-    clientSecret: '2b1af31f000083b609c15270ef207c39' ,
+    clientID: 'not for sharing' ,
+    clientSecret: 'not for sharing' ,
     callbackURL: 'http://localhost:3000/login/facebook/return'
   },
   function(accessToken, refreshToken, profile, cb) {
