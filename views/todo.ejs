@@ -1,0 +1,53 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Todo List</title>
+	<link rel="stylesheet" type="text/css" href="/todos.css">
+	<link href='https://fonts.googleapis.com/css?family=Roboto:400,700,500' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.css">
+	
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+<body>
+
+<div id="container">
+	<h1>To-Do List <i class="fa fa-plus"></i></h1>
+
+
+
+	<form id ="addnewtodo" action="/<%=user._id%>/todo" method ="POST">
+	<input type="text" placeholder="Add New Todo" name="task" required="true">
+	<input type="submit">
+	</form>
+
+	<ul>
+		<%for(var i=0;i<user.todo.length;i++){%>
+		<li>
+
+		<span>
+		<form action='/<%=user._id%>/todo/<%=user.todo[i].id%>?_method=DELETE' method="POST">
+		<button><i class="fa fa-trash" aria-hidden="true"></i></button>
+		</form>
+		</span>
+
+		<%=user.todo[i].task%></li>
+
+		<%}%>
+	</ul>
+
+
+
+
+</div>
+
+<div id="container2">
+<a href="/"><i class="fa fa-home" aria-hidden="true"></i>Go back to home page</a>
+</div>
+
+<script type="text/javascript" >
+
+</script>
+</body>
+</html>
