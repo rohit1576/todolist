@@ -10,9 +10,9 @@ app.use(methodOverride("_method"));
 
 var mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
-//mongoose.connect("mongodb://localhost/todolist2",{useMongoClient: true});
+mongoose.connect("mongodb://localhost/todolist2",{useMongoClient: true});
 
-mongoose.connect("mongodb://rohitsuri:password@ds149353.mlab.com:49353/todolist",{useMongoClient: true});
+//mongoose.connect("mongodb://rohitsuri:password@ds149353.mlab.com:49353/todolist",{useMongoClient: true});
 
 
 //USER AUTHENTICATION USING PASSPORT-FACEBOOK
@@ -184,7 +184,24 @@ app.get('/:id/todo',isLoggedIn,function(req,res){
 			}
 		else
 		{
+			
 			res.render("todo",{user:found});
+
+		}
+	});
+});
+
+app.get('/:id/todo2',isLoggedIn,function(req,res){
+
+	User.findById(req.params.id).populate("todo").exec(function(err,found){
+		if(err)
+			{console.log('err');
+			}
+		else
+		{
+			
+			res.send(found.todo);
+
 		}
 	});
 });
@@ -209,11 +226,14 @@ app.post('/:id/todo',isLoggedIn,function(req,res){
 					}
 					else
 					{
+						
 						var url = '/' + req.params.id + '/todo';
 						res.redirect(url);
 					}
 				});
 			});
+
+			
 		}
 
 	});
@@ -229,6 +249,7 @@ app.delete('/:id/todo/:task_id',function(req,res){
 		}
 		else
 		{
+			
 			var url = '/' + req.params.id + '/todo';
 			res.redirect(url);
 		}

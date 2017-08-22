@@ -16,20 +16,11 @@ $("input[type='text']").keypress(function(event){
 		//grabbing new todo text from input
 		var todoText = $(this).val();
 
-		// $(this).val("");
-		// //create a new li and add to ul
-		// $("ul").append("<li><span><i class='fa fa-trash'></i></span> " + todoText + "</li>")
+		$(this).val("");
+
+		$("ul").append("<li><span><i class='fa fa-trash'></i></span> " + todoText + "</li>")
 
 
-		Todo.create({
-			task: todoText
-		},function(err,newtask){
-			user.findOne({name: req.user.displayName},function(err,found){
-				found.todo.push(newtask);
-				found.save();
-			});
-		});
-	}
 
 	
 });
