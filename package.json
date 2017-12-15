@@ -9,8 +9,13 @@
   "author": "rohit suri",
   "license": "ISC",
   "dependencies": {
+    "ejs": "^2.5.7",
     "express": "^4.15.4",
+    "express-session": "^1.15.5",
     "method-override": "^2.3.9",
-    "mongoose": "^4.11.7"
+    "mongoose": "^4.11.7",
+    "passport": "^0.4.0",
+    "passport-facebook": "^2.1.1",
+    "request": "^2.81.0"
   }
 }

@@ -1,17 +1,8 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Todo List</title>
-	<link rel="stylesheet" type="text/css" href="/todos.css">
-	<link href='https://fonts.googleapis.com/css?family=Roboto:400,700,500' rel='stylesheet' type='text/css'>
-	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.css">
-	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-</head>
-<body>
-
+<%include partials/header.ejs%>
+<link rel="stylesheet" type="text/css" href="/todos.css">
 <div id="container">
 	<h1>To-Do List <i class="fa fa-plus"></i></h1>
-	<input type="text" placeholder="Add New Todo">
+	<input id="inputtext" type="text" placeholder="Add New Todo">
 
 
 	<ul id="todolist">
@@ -30,79 +21,71 @@
 
 
 
-<script type="text/javascript" >
-	// Check Off Specific Todos By Clicking
-
-
-//Click on X to delete Todo
-
-function reBuildTodo()
-{
+<script type="text/javascript">
 	
-	$("#todolist").empty();
-
-	$.get('/<%=user.id%>/todo2',function(data){
-
-		
-
-		for(var i=0;i<data.length;i++)
-		{
-			
-			$("ul").append("<li><span data-id ="+ data[i]._id +"><i class='fa fa-trash'></i></span> " + data[i].task  + "</li>")
-		} 
-	});
-		
-	
+function removeTodo(todo){
+	todo.remove();
 }
-
 
 $("ul").on("click","span",function(event){
 
-	
+	//event.stopPropagation();
 
 	var dataid = $(this).attr("data-id");
 				
 	$.ajax({
 			type:'POST',
-			url: '/<%=user._id%>/todo/'+ dataid + '?_method=DELETE',
+			url: '/<%=user._id%>/todo/'+ dataid + '?_method=DELETE'})
 
-			success: function()
+			.then(function()
 			{
 				
-				reBuildTodo();
-				
-				
-			},
-			error:function(error)
+				//reBuildTodo();
+				// $(this).parent().fadeOut(500,function(){
+				// 	$(this).remove();
+				//  });
+				//console.log('success function of delete called!')
+				event.stopPropagation();
+
+				removeTodo($('[data-id =' + dataid + ']').parent());
+			})
+			.catch(function(error)
 			{
 				console.log('error!!!!');
-			}
-		})
+			})
+		
 
 
 });
 
-$("input[type='text']").keypress(function(event){
-	if(event.which === 13){
+function addTodo(todo){
+				
+				//console.log(todo + "hello");
+				$("#todolist").append("<li><span data-id ="+ todo._id +"><i class='fa fa-trash'></i></span> " + todo.task  + "</li>")
+}
+
+$("#inputtext").keypress(function(event){
+	if(event.which == 13){
 		//grabbing new todo text from input
-		var todoText = $(this).val();
-		$(this).val("");
+		var todoText = $('#inputtext').val();
+		//$(this).val("");
 		//create a new li and add to ul
 		
 
 		$.ajax({
 			type: 'POST',
 			url:'/<%=user.id%>/todo',
-			data: {task:todoText},
-
-			success: function(){
-				reBuildTodo();
-			},
-			error:function()
+			data: {task:todoText} })
+			.then(function(newTodo){
+				//reBuildTodo();
+				$('#inputtext').val("");
+				//console.log('hello')
+				addTodo(newTodo);
+			})
+			.catch(function()
 			{
 				console.log('error');
-			}
-		})
+			})
 	}
 });
 
@@ -111,8 +94,6 @@ $(".fa-plus").click(function(){
 });
 
 
-
 </script>
 
-</body>
-</html>
+<%include partials/footer.ejs%>

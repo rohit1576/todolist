@@ -1,7 +1,7 @@
 var express = require('express');
 var passport = require('passport');
 var Strategy = require('passport-facebook').Strategy;
-var FB = require('fbgraphapi');
+//var FB = require('fbgraphapi');
 var request = require('request');
 var methodOverride = require('method-override');
 var app = express();
@@ -18,8 +18,8 @@ mongoose.connect("mongodb://localhost/todolist2",{useMongoClient: true});
 //USER AUTHENTICATION USING PASSPORT-FACEBOOK
 
 passport.use(new Strategy({
-    clientID: 'not for sharing' ,
-    clientSecret: 'not for sharing' ,
+    clientID: '190503814821838' ,
+    clientSecret: '2b1af31f000083b609c15270ef207c39' ,
     callbackURL: 'http://localhost:3000/login/facebook/return'
   },
   function(accessToken, refreshToken, profile, cb) {
@@ -75,7 +75,7 @@ var userSchema = new mongoose.Schema({
 	}
 	]
 });
-var User =mongoose.model("User",userSchema);
+var User = mongoose.model("User",userSchema);
 
 
 
@@ -228,7 +228,9 @@ app.post('/:id/todo',isLoggedIn,function(req,res){
 					{
 						
 						var url = '/' + req.params.id + '/todo';
-						res.redirect(url);
+						//res.redirect(url);
+						//console.log(newtask);
+						res.status(201).json(newtask);
 					}
 				});
 			});
